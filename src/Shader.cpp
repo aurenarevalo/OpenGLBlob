@@ -15,6 +15,7 @@ std::string Shader::readFile(const char* fp)
     while(!file.eof())
     {
         std::getline(file,line);
+        // std::cout << line << std::endl;
         body.append(line + "\n");
     }
     file.close();
@@ -27,8 +28,10 @@ std::string Shader::readFile(const char* fp)
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-    const char* vertShaderSrc = readFile(vert_shader).c_str();
-    const char* fragShaderSrc = readFile(frag_shader).c_str();
+    std::string vertString = readFile(vert_shader);
+    std::string fragString = readFile(frag_shader);
+    const char* vertShaderSrc = vertString.c_str();
+    const char* fragShaderSrc = fragString.c_str();
     GLint success;
     GLchar infoLog[512];
     //Vert shader
@@ -41,8 +44,9 @@ std::string Shader::readFile(const char* fp)
     {
         glGetShaderInfoLog(vertexShader,512,NULL, infoLog);
         std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        
     }
-
+    // std::cerr << vertShaderSrc << std::endl;
     //compile frag shader
     glShaderSource(fragmentShader,1,&fragShaderSrc,NULL);
     glCompileShader(fragmentShader);
@@ -92,3 +96,7 @@ void Shader::SetFloat(const std::string &name, float value) const
 
 
 
+GLuint Shader::getID()
+{
+    return ID;
+}
