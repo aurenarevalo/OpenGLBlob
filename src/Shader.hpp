@@ -18,16 +18,12 @@ class Shader
         GLuint ID;
 
     public:
-        Shader(const char* vert_shader, const char* frag_shader);
+        Shader(const char* vert_shader = "shaders/default.vert", const char* frag_shader = "shaders/default.frag");
         void use();
         void SetBool(const std::string &name, bool value) const;
         void SetInt(const std::string &name, int value) const;
         void SetFloat(const std::string &name, float value) const; 
         GLuint getID();
-
-
-
-
 
 };
 

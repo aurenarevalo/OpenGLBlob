@@ -20,7 +20,7 @@ class Texture
         void setTexture(unsigned int txtr, int texture_num);
 
     public:
-        Texture(const char* fpath);
+        Texture(const char* fpath = "");
         void generate(int texture_num);
         unsigned int getTexture(int texture_num);
         void bind(int texture_num = 0);
