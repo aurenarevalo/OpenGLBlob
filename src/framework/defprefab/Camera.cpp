@@ -6,7 +6,7 @@ Camera::Camera(glm::vec3 initPos, const char* vert, const char* frag)
     camPos=initPos;
     
     createShader(vert,frag);
-    setView();
+    update();
 }
 
 
@@ -14,6 +14,14 @@ Camera::Camera(glm::vec3 initPos,Shader shader)
 {
     camPos=initPos;
     camShader = shader;
+}
+
+
+void Camera::update()
+{
+    updateModel();
+    updateProjection();
+    updateView();
 }
 
 void Camera::createShader(const char* vert,const char* frag)
@@ -32,7 +40,7 @@ void Camera::calcView()
 
 
 
-void Camera::setView()
+void Camera::updateView()
 {
     calcView();
     viewLoc = glGetUniformLocation(camShader.getID(),"view");
@@ -42,13 +50,13 @@ void Camera::setViewMat(glm::mat4 v)
 {
     view=v;
 }
-void Camera::setModel()
+void Camera::updateModel()
 {
     modelLoc = glGetUniformLocation(camShader.getID(),"model");
     glUniformMatrix4fv(modelLoc,1,GL_FALSE,glm::value_ptr(model));
 }
 
-void Camera::setModelVal(glm::mat4 mdl)
+void Camera::setModel(glm::mat4 mdl)
 {
     model=mdl;
 }
@@ -60,7 +68,10 @@ void Camera::setShader(Shader shader)
 
 void Camera::setProjection(glm::mat4 proj)
 {
-    projection=proj;
+    projection=proj;  
+}
+void Camera::updateProjection()
+{
     camShader.setMat4("projection",projection);
 }
 

@@ -7,11 +7,17 @@ class Camera
     private:
         //constants
         glm::vec3 camPos = glm::vec3(0.0f,0.0f,1.0f);
+
         glm::vec3 camFront = glm::vec3(0.0f,0.0f,-1.0f);
         glm::vec3 camUp = glm::vec3(0.0f,1.0f,0.0f);
+
         glm::mat4 projection = glm::mat4(1.0f);
         glm::mat4 view = glm::mat4(1.0f);
         glm::mat4 model = glm::mat4(1.0f);
+
+        glm::vec3 camTarget =glm::vec3(0.0f,0.0f,0.0f);
+        glm::vec3 camDirection = glm::normalize(camPos-camTarget);
+
         GLint viewLoc, modelLoc;
         Shader camShader;
         // float deltaTime=0.0f;
@@ -21,17 +27,23 @@ class Camera
         float speed=0.1f;
         Camera(glm::vec3 initPos, const char* vert, const char* frag);
         Camera(glm::vec3 initPos,Shader shader);
+        
+        void update();
 
         void createShader(const char* vert,const char* frag);
 
         void calcView();
 
-        void setView();
+        void updateView();
         void setViewMat(glm::mat4 v);
-        void setModel();
-        void setModelVal(glm::mat4 mdl);
+
+        void setModel(glm::mat4 mdl);
+        void updateModel();
+
         void setShader(Shader shader);
+
         void setProjection(glm::mat4 proj);
+        void updateProjection();
 
         Shader getShader();
         glm::mat4 getModel();

@@ -8,7 +8,7 @@ Texture::Texture(const char* fpath)
 {
     int w,h,nr;
     Texture::data = stbi_load(fpath,&w,&h,&nr,0);
-    if(!Texture::data) std::cout << " ur shit m9";
+    if(!Texture::data) std::cout << " Could not load texture from path: " << fpath << std::endl;
     setWidth(w);
     setHeight(h);
     setChannels(nr);
