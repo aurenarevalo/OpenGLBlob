@@ -4,14 +4,14 @@
 
 UIElement::UIElement()
 {
-    uiShader  =  new Shader(vertShaderPath,fragShaderPath);
+    uiShader  =   Shader(vertShaderPath,fragShaderPath);
     
 }
 
 
 UIElement::UIElement(float xpos, float ypos)
 {
-    uiShader  =  new Shader(vertShaderPath,fragShaderPath);
+    uiShader  =   Shader(vertShaderPath,fragShaderPath);
     if(xpos<0.0f || xpos>1.0f)
         std::cout << "WARNING::UIELEMENT, passed in value  (x<0.0f) or (x>1.0f)" << std::endl;
     if(ypos<0.0f || ypos>1.0f)
@@ -23,7 +23,7 @@ UIElement::UIElement(float xpos, float ypos)
 
 UIElement::UIElement(float xpos, float ypos, float w, float h)
 {
-    uiShader  =  new Shader(vertShaderPath,fragShaderPath);
+    uiShader  =   Shader(vertShaderPath,fragShaderPath);
     if(xpos<0.0f || xpos>1.0f)
         std::cout << "WARNING::UIELEMENT, passed in value  (x<0.0f) or (x>1.0f)" << std::endl;
     if(ypos<0.0f || ypos>1.0f)
@@ -33,8 +33,8 @@ UIElement::UIElement(float xpos, float ypos, float w, float h)
     if(height<0.0f || height>1.0f)
         std::cout << "WARNING::UIELEMENT, passed in value  (height<0.0f) or (height>1.0f)" << std::endl;  
     
-    x=xpos-0.5f;
-    y=ypos-0.5f;
+    x=xpos;
+    y=ypos;
 
     width = w;
     height = h;
@@ -42,7 +42,12 @@ UIElement::UIElement(float xpos, float ypos, float w, float h)
 }
 
 
+void UIElement::setShader(Shader *shader)
+{
+    uiShader=*shader;
+}
 
+Shader UIElement::getShader(){return uiShader;}
 //protected
 
 void UIElement::generateVertices()

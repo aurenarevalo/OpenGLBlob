@@ -86,25 +86,16 @@ int main()
     } 
 
 
-    Shader shader("framework/shaders/vert/test.vert",fragShaderPaths[1]);
-    UIElement bar(0.1f,0.1f,0.4f,0.2f);
-    UIElement bar2(0.0f,0.5f,0.5f,0.4f);
+    Shader GUIShader("framework/shaders/vert/gui.vert",fragShaderPaths[1]);
+    Shader worldShader(vertShaderPaths[0],fragShaderPaths[0]);
+
+
+    UIElement bar(-1.0f,-1.0f,2.0f,0.4f);
+    UIElement bar2(-0.5f,-1.0f,0.5f,0.4f);
+    bar.setShader(&GUIShader);
+    // bar2.setShader(&shader);
     // Camera cam(camPos,vertShaderPaths[0],fragShaderPaths[0]);
 
-
-
-
-
-
-
-
-    // Object obj("cube.obj");
-
-
-
- 
-
-   
 
     /*Uncomment for wireframe*/
     // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
@@ -125,10 +116,14 @@ int main()
         //to print fps
         
  
-        glClearColor(0.2f,0.3f,0.4f,1.0f);
+        glClearColor(0.2f,0.3f,0.5f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        shader.use();
+        bar.getShader().setVec4("color", glm::vec4(1.0f,0.0f,0.0f,1.0f));
+        bar.getShader().use();
+        
         bar.draw();
+        bar.getShader().setVec4("color", glm::vec4(0.0f,0.0f,0.0f,1.0f));
+        bar.getShader().use();
         bar2.draw();
   
 

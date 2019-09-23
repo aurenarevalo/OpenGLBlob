@@ -7,7 +7,7 @@ class UIElement
 {
     private:
         // Texture uiTexture;
-        Shader* uiShader;
+        Shader uiShader;
         const char* vertShaderPath = "framework/shaders/vert/basic.vert";
         const char* fragShaderPath = "framework/shaders/frag/color2.frag";
         glm::vec3 position = glm::vec3(1.0f);
@@ -29,10 +29,13 @@ class UIElement
         UIElement();
         UIElement(float x, float y);
         UIElement(float x, float y, float width, float height);
+        void setShader(Shader *shader);
+        Shader getShader();
 
         void draw();
         void deleteBuffers();
 
+        
 
         // UIElement(const char* fragShader);
         // UIElement(const char* vertShader,const char* fragShader);
