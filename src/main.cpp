@@ -13,13 +13,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "framework/support/Shader.hpp"
-#include "framework/support/Texture.hpp"
 
-#include "framework/defprefab/Camera.hpp"
+#include "framework/default_prefab/Camera.hpp"
+#include "framework/prefab2D.hpp"
 #include "framework/gui/UIElement.hpp"
+#include "framework/Math.hpp"
+#include "framework/Supports.h"
 
 // #include "glglobal.hpp"
+
 
 
 using namespace std;
@@ -86,13 +88,17 @@ int main()
     } 
 
 
-    Shader GUIShader("framework/shaders/vert/gui.vert",fragShaderPaths[1]);
-    Shader worldShader(vertShaderPaths[0],fragShaderPaths[0]);
+    Shader guiShader("framework/shaders/vert/gui.vert",fragShaderPaths[1]);
+    // Shader worldShader(vertShaderPaths[0],fragShaderPaths[0]);
 
 
-    UIElement bar(-1.0f,-1.0f,2.0f,0.4f);
-    UIElement bar2(-0.5f,-1.0f,0.5f,0.4f);
-    bar.setShader(&GUIShader);
+    Rect rect(0.0,0.0,0.5,0.5);
+    // Shape myshape = rect;
+    
+
+    // UIElement bar(-1.0f,-1.0f,2.0f,0.4f);
+    // UIElement bar2(-0.5f,-1.0f,0.5f,0.4f);
+    // bar.setShader(&GUIShader);
     // bar2.setShader(&shader);
     // Camera cam(camPos,vertShaderPaths[0],fragShaderPaths[0]);
 
@@ -101,51 +107,55 @@ int main()
     // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     
 
+    float xx = -0.4;
+    float yy = 0.4;
 
-
+    std::cout << xx << " "  << yy << std::endl;
+    Coordinates::originBotLeft(&xx,&yy);
+    std::cout << xx << " "  << yy << std::endl;
     //trying to perspective
   
 
     // cam.getShader().use();
 
     //RENDER LOOP
-    
+    Color color;
     // glEnable(GL_DEPTH_TEST);
+    float r=0.0f,g=0.0f,b=0.0f;
+    float t=0.0f;
     while(!glfwWindowShouldClose(window))
     {   
         //to print fps
         
  
-        glClearColor(0.2f,0.3f,0.5f,1.0f);
+        glClearColor(1.0f,1.0f,1.0f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        bar.getShader().setVec4("color", glm::vec4(1.0f,0.0f,0.0f,1.0f));
-        bar.getShader().use();
         
-        bar.draw();
-        bar.getShader().setVec4("color", glm::vec4(0.0f,0.0f,0.0f,1.0f));
-        bar.getShader().use();
-        bar2.draw();
-  
+        rect.setColor(glm::vec4(r,g,b,1.0f));
+        rect.draw(&guiShader);
+
+
 
 
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame-lastFrame;
         lastFrame=currentFrame;
         //print out fps
-    
+        t= (t >  2*glm::pi<float>() ) ? 0 : t+ deltaTime;
         //end
         glfwSwapBuffers(window);
         glfwPollEvents();
-        
+        g=(glm::sin(t) < 0 ) ? -glm::sin(t) : glm::sin(t);
+        // r=glm::cos(t);
+        // b=glm::sin(t+0.5);
+        std::cout << t << std::endl;
     }
-    
 
     // glDeleteBuffers(1,&EBO);
 
    
     glfwTerminate();
 }
-
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -156,5 +166,10 @@ void processInput(GLFWwindow* window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window,true);
+}
+
+void drawUIElements()
+{
+    //TODO write this
 }
 
